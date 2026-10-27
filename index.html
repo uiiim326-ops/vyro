@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0f1d">
+<title>VYRO | متجر النظارات</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    /* خلفية فخمة بتدرج دافئ وراقي يربط بين الأسود والنيلي الفاخر */
+    background: radial-gradient(circle at top center, #111a2e 0%, #080c14 60%, #030508 100%);
+    background-attachment: fixed;
+    color: #fff;
+    min-height: 100vh;
+    padding: 20px 0;
+}
+
+.container {
+    width: 100%;
+    max-width: 430px;
+    margin: auto;
+    padding: 24px 20px;
+    background: rgba(13, 20, 33, 0.75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 149, 246, 0.18);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 149, 246, 0.05);
+}
+
+.brand {
+    text-align: center;
+    font-size: 38px;
+    font-weight: 900;
+    letter-spacing: 4px;
+    background: linear-gradient(135deg, #ffffff 30%, #0095f6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 4px 15px rgba(0, 149, 246, 0.2);
+}
+
+.subtitle {
+    text-align: center;
+    color: #8a99ad;
+    font-size: 13px;
+    margin: 6px 0 25px;
+    letter-spacing: 0.5px;
+}
+
+.nav-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 22px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    color: #8a99ad;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.tab-btn.active {
+    background: linear-gradient(135deg, rgba(0, 149, 246, 0.2) 0%, rgba(0, 149, 246, 0.05) 100%);
+    border-color: #0095f6;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 149, 246, 0.2);
+}
+
+.section-box {
+    display: none;
+}
+
+.section-box.active {
+    display: block;
+}
+
+.models-gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+.model-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.model-card.selected {
+    border-color: #0095f6;
+    background: rgba(0, 149, 246, 0.12);
+    box-shadow: 0 0 15px rgba(0, 149, 246, 0.25);
+    transform: translateY(-2px);
+}
+
+.model-card img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 8px;
+    background-color: #0d131f;
+}
+
+.model-card span {
+    font-size: 13px;
+    font-weight: bold;
+    color: #fff;
+    display: block;
+}
+
+.group {
+    margin-bottom: 18px;
+}
+
+label {
+    display: block;
+    color: #a3b3c2;
+    font-size: 13px;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 13px 15px;
+    background: rgba(15, 23, 38, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    color: #fff;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+input:focus,
+select:focus {
+    border-color: #0095f6;
+    background: rgba(20, 31, 51, 0.95);
+    box-shadow: 0 0 12px rgba(0, 149, 246, 0.3);
+}
+
+select:disabled {
+    opacity: .4;
+}
+
+.delivery-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.delivery-option {
+    background: rgba(15, 23, 38, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 14px 8px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.delivery-option:has(input:checked) {
+    border-color: #0095f6;
+    background: rgba(0, 149, 246, 0.12);
+    box-shadow: 0 0 10px rgba(0, 149, 246, 0.2);
+}
+
+.delivery-option input {
+    width: auto;
+    accent-color: #0095f6;
+    margin-left: 5px;
+}
+
+.delivery-option label {
+    color: white;
+    cursor: pointer;
+    margin: 0;
+    line-height: 1.8;
+}
+
+.delivery-price {
+    display: block;
+    color: #0095f6;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.summary {
+    background: rgba(10, 16, 26, 0.9);
+    border: 1px solid rgba(0, 149, 246, 0.2);
+    border-radius: 14px;
+    padding: 18px;
+    margin: 24px 0;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 9px 0;
+    font-size: 14px;
+    color: #b0c0d0;
+}
+
+.summary-row.total {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 8px;
+    padding-top: 15px;
+    color: #0095f6;
+    font-size: 19px;
+    font-weight: bold;
+}
+
+button {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #0095f6 0%, #0066cc 100%);
+    border: 0;
+    border-radius: 12px;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0, 149, 246, 0.35);
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 25px rgba(0, 149, 246, 0.5);
+}
+
+button:active {
+    transform: translateY(1px);
+    opacity: .9;
+}
+
+#status {
+    color: #8a99ad;
+    font-size: 13px;
+    line-height: 1.7;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+/* نافذة النجاح والتأكيد الفخمة */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(3, 6, 12, 0.88);
+    backdrop-filter: blur(8px);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal-content {
+    background: #0f172a;
+    border: 2px solid #0095f6;
+    border-radius: 20px;
+    padding: 26px;
+    width: 100%;
+    max-width: 380px;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0, 149, 246, 0.3);
+}
+
+.modal-content h3 {
+    color: #0095f6;
+    font-size: 21px;
+    margin-bottom: 12px;
+}
+
+.modal-content p {
+    color: #cbd5e1;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.tracking-code-box {
+    background: rgba(0, 149, 246, 0.12);
+    border: 1px dashed #0095f6;
+    padding: 15px;
+    font-size: 19px;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 12px;
+    margin: 15px 0 8px 0;
+    letter-spacing: 2px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.tracking-code-box:active {
+    background: rgba(0, 149, 246, 0.25);
+    transform: scale(0.98);
+}
+
+.copy-hint {
+    font-size: 12px;
+    color: #0095f6;
+    margin-bottom: 16px;
+    font-weight: bold;
+}
+
+.track-result {
+    margin-top: 16px;
+    background: rgba(15, 23, 38, 0.9);
+    padding: 14px;
+    border-radius: 10px;
+    text-align: right;
+    font-size: 13px;
+    line-height: 1.7;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.admin-panel {
+    display: none;
+    margin-top: 30px;
+    padding: 16px;
+    background: #0b1321;
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+}
+
+.admin-title {
+    font-size: 14px;
+    color: #38bdf8;
+    margin-bottom: 12px;
+    font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="brand">VYRO</div>
+    <div class="subtitle">متجر النظارات الأول في الجزائر</div>
+
+    <!-- أزرار التنقل -->
+    <div class="nav-tabs">
+        <div class="tab-btn active" id="tabOrderBtn" onclick="switchTab('order')">طلب منتج</div>
+        <div class="tab-btn" id="tabTrackBtn" onclick="switchTab('track')">تتبع طلبي</div>
+    </div>
+
+    <!-- قسم تقديم الطلب -->
+    <div class="section-box active" id="orderSection">
+        <div class="models-gallery">
+            <div class="model-card selected" id="card1" onclick="selectModel('1900', 'card1')">
+                <img src="https://lh3.googleusercontent.com/d/19I8DuoRtXAKclKHNVY1wc7REQCxMt2lx" alt="موديل 1">
+                <span>موديل 1 (1900 دج)</span>
+            </div>
+            <div class="model-card" id="card2" onclick="selectModel('2000', 'card2')">
+                <img src="https://lh3.googleusercontent.com/d/1GsY49-b_0uSef1wojgETSZ_omd408Oiv" alt="موديل 2">
+                <span>موديل 2 (2000 دج)</span>
+            </div>
+        </div>
+
+        <p id="status">جارٍ تحميل الولايات والبلديات...</p>
+
+        <form id="orderForm">
+            <select id="model" style="display:none;" required>
+                <option value="1900">موديل 1 — 1900 دج</option>
+                <option value="2000">موديل 2 — 2000 دج</option>
+            </select>
+
+            <div class="group">
+                <label for="quantity">الكمية</label>
+                <input type="number" id="quantity" value="1" min="1" max="10" required>
+            </div>
+
+            <div class="group">
+                <label for="fullName">الاسم الكامل</label>
+                <input type="text" id="fullName" placeholder="أدخل اسمك الكامل" autocomplete="name" required>
+            </div>
+
+            <div class="group">
+                <label for="phone">رقم الهاتف</label>
+                <input type="tel" id="phone" placeholder="05 / 06 / 07 ..." inputmode="tel" pattern="(05|06|07)[0-9]{8}" required>
+            </div>
+
+            <div class="group">
+                <label for="wilaya">الولاية</label>
+                <select id="wilaya" required disabled>
+                    <option value="">جارٍ تحميل الولايات...</option>
+                </select>
+            </div>
+
+            <div class="group">
+                <label for="commune">البلدية</label>
+                <select id="commune" required disabled>
+                    <option value="">اختر الولاية أولًا</option>
+                </select>
+            </div>
+
+            <div class="group">
+                <label for="address">العنوان التفصيلي</label>
+                <input type="text" id="address" placeholder="الحي، الشارع، أو نقطة الدلالة" required>
+            </div>
+
+            <div class="group">
+                <label>اختر طريقة التوصيل</label>
+                <div class="delivery-options">
+                    <div class="delivery-option">
+                        <label for="desk">
+                            <input type="radio" name="delivery" id="desk" value="desk" checked>
+                            🏢 إلى المكتب
+                            <span class="delivery-price" id="deskPrice">اختر الولاية</span>
+                        </label>
+                    </div>
+                    <div class="delivery-option">
+                        <label for="home">
+                            <input type="radio" name="delivery" id="home" value="home">
+                            🏠 إلى المنزل
+                            <span class="delivery-price" id="homePrice">اختر الولاية</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary">
+                <div class="summary-row">
+                    <span>سعر المنتجات</span>
+                    <span id="productsTotal">1900 دج</span>
+                </div>
+                <div class="summary-row">
+                    <span>سعر التوصيل</span>
+                    <span id="shippingTotal">—</span>
+                </div>
+                <div class="summary-row">
+                    <span>طريقة التوصيل</span>
+                    <span id="deliveryName">إلى المكتب</span>
+                </div>
+                <div class="summary-row total">
+                    <span>المبلغ الإجمالي</span>
+                    <span id="grandTotal">—</span>
+                </div>
+            </div>
+
+            <button type="submit">تأكيد الطلب الآن</button>
+        </form>
+    </div>
+
+    <!-- قسم تتبع الطلب -->
+    <div class="section-box" id="trackSection">
+        <div class="group">
+            <label for="trackInput">أدخل رمز التعقب الخاص بك</label>
+            <input type="text" id="trackInput" placeholder="مثال: VYRO-8421">
+        </div>
+        <button type="button" onclick="trackOrder()">الاستعلام عن حالة الطلب</button>
+        <div id="trackResultBox" class="track-result" style="display:none;"></div>
+
+        <!-- لوحة الإدارة المخفية -->
+        <div class="admin-panel" id="adminPanel">
+            <div class="admin-title">⚙️ لوحة إدارة VYRO</div>
+            <div class="group">
+                <input type="text" id="adminOrderCode" placeholder="رمز الطلب (مثال: VYRO-1234)">
+            </div>
+            <div class="group">
+                <select id="adminStatus">
+                    <option value="قيد المراجعة ⏳">قيد المراجعة ⏳</option>
+                    <option value="تم تأكيد الطلب ✅">تم تأكيد الطلب ✅</option>
+                    <option value="في الطريق للشحن 🚚">في الطريق للشحن 🚚</option>
+                    <option value="تم التسليم بنجاح 🎉">تم التسليم بنجاح 🎉</option>
+                    <option value="طلب ملغي / مرفوض ❌">طلب ملغي / مرفوض ❌</option>
+                </select>
+            </div>
+            <button type="button" onclick="updateOrderStatus()" style="background: #1e293b;">تحديث حالة الطلب</button>
+        </div>
+    </div>
+
+</div>
+
+<!-- نافذة النجاح والتوليد -->
+<div class="modal-overlay" id="successModal">
+    <div class="modal-content">
+        <h3>تم تأكيد طلبك بنجاح! 🎉</h3>
+        <p>شكراً لتسوقك معنا في VYRO. اضغط على المربع أدناه لنسخ الرمز واستخدامه في التتبع:</p>
+        
+        <div class="tracking-code-box" id="generatedCodeBox" onclick="copyTrackingCode()">
+            <span id="generatedCode">VYRO-XXXX</span> 📋
+        </div>
+        <div class="copy-hint" id="copyHint">اضغط هنا لنسخ الرمز</div>
+
+        <button type="button" onclick="closeModal()">مفهوم، العودة للمتجر</button>
+    </div>
+</div>
+
+<script>
+const BOT_TOKEN = "8916858375:AAHIt2bI4qFc5vquBzaQbU9qmcXcmO7Nh7A";
+const CHAT_ID = "8066547714";
+const ADMIN_PASSWORD = "DJIHADVYRO";
+
+const shippingRates = {
+    "01": {home:1100, desk:600}, "02": {home:690, desk:400}, "03": {home:900, desk:500},
+    "04": {home:850, desk:400}, "05": {home:850, desk:400}, "06": {home:790, desk:400},
+    "07": {home:950, desk:500}, "08": {home:1000, desk:600}, "09": {home:600, desk:400},
+    "10": {home:690, desk:400}, "11": {home:1100, desk:600}, "12": {home:850, desk:400},
+    "13": {home:600, desk:400}, "14": {home:700, desk:400}, "15": {home:690, desk:400},
+    "16": {home:500, desk:400}, "17": {home:900, desk:500}, "18": {home:790, desk:400},
+    "19": {home:750, desk:400}, "20": {home:790, desk:400}, "21": {home:690, desk:400},
+    "22": {home:600, desk:400}, "23": {home:800, desk:400}, "24": {home:850, desk:450},
+    "25": {home:800, desk:400}, "26": {home:690, desk:400}, "27": {home:600, desk:400},
+    "28": {home:800, desk:400}, "29": {home:650, desk:400}, "30": {home:900, desk:500},
+    "31": {home:450, desk:250}, "32": {home:900, desk:500}, "33": {home:1300, desk:600},
+    "34": {home:790, desk:400}, "35": {home:690, desk:350}, "36": {home:850, desk:500},
+    "37": {home:1300, desk:600}, "38": {home:750, desk:400}, "39": {home:950, desk:550},
+    "40": {home:800, desk:400}, "41": {home:800, desk:500}, "42": {home:690, desk:350},
+    "43": {home:690, desk:400}, "44": {home:690, desk:400}, "45": {home:900, desk:500},
+    "46": {home:600, desk:400}, "47": {home:990, desk:500}, "48": {home:690, desk:400},
+    "49": {home:1000, desk:750}, "50": {home:1700, desk:1100}, "51": {home:900, desk:600},
+    "52": {home:1100, desk:600}, "53": {home:1100, desk:600}, "54": {home:1700, desk:1100},
+    "55": {home:990, desk:500}, "56": {home:1700, desk:1100}, "57": {home:900, desk:null},
+    "58": {home:990, desk:500}
+};
+
+const model = document.getElementById("model");
+const quantity = document.getElementById("quantity");
+const wilaya = document.getElementById("wilaya");
+const commune = document.getElementById("commune");
+const deskRadio = document.getElementById("desk");
+const homeRadio = document.getElementById("home");
+
+let wilayasData = [];
+
+function switchTab(tab) {
+    document.getElementById("tabOrderBtn").classList.toggle("active", tab === 'order');
+    document.getElementById("tabTrackBtn").classList.toggle("active", tab === 'track');
+    document.getElementById("orderSection").classList.toggle("active", tab === 'order');
+    document.getElementById("trackSection").classList.toggle("active", tab === 'track');
+}
+
+function selectModel(val, cardId) {
+    model.value = val;
+    document.querySelectorAll('.model-card').forEach(card => card.classList.remove('selected'));
+    document.getElementById(cardId).classList.add('selected');
+    updateTotal();
+}
+
+function getCode(item) {
+    const match = String(item.id || "").match(/DZ(\d+)/);
+    return match ? String(Number(match[1])).padStart(2, "0") : null;
+}
+
+function getShippingPrice() {
+    const code = getCode(wilayasData.find(w => w.id === wilaya.value) || {});
+    if (!code || !shippingRates[code]) return null;
+    const type = homeRadio.checked ? "home" : "desk";
+    return shippingRates[code][type];
+}
+
+function updateTotal() {
+    const qty = Number(quantity.value);
+    const price = Number(model.value);
+    const products = qty * price;
+    const shipping = getShippingPrice();
+
+    document.getElementById("productsTotal").textContent = products.toLocaleString("fr-DZ") + " دج";
+    const rates = shippingRates[getCode(wilayasData.find(w => w.id === wilaya.value) || {})];
+
+    document.getElementById("deskPrice").textContent = rates && rates.desk !== null ? rates.desk.toLocaleString("fr-DZ") + " دج" : "غير متوفر";
+    document.getElementById("homePrice").textContent = rates ? rates.home.toLocaleString("fr-DZ") + " دج" : "اختر الولاية";
+    document.getElementById("deliveryName").textContent = homeRadio.checked ? "إلى المنزل" : "إلى المكتب";
+    document.getElementById("shippingTotal").textContent = shipping === null ? "غير متوفر" : shipping.toLocaleString("fr-DZ") + " دج";
+    document.getElementById("grandTotal").textContent = shipping === null ? "—" : (products + shipping).toLocaleString("fr-DZ") + " دج";
+
+    if (rates && rates.desk === null) {
+        deskRadio.disabled = true;
+        homeRadio.checked = true;
+    } else {
+        deskRadio.disabled = false;
+    }
+}
+
+async function loadWilayas() {
+    const url = "https://raw.githubusercontent.com/open-admin-data/algeria-administrative-divisions/master/data/hierarchy.json";
+    try {
+        const response = await fetch(url);
+        const json = await response.json();
+        wilayasData = json.data.sort((a, b) => Number(getCode(a)) - Number(getCode(b)));
+
+        wilaya.innerHTML = '<option value="">اختر الولاية</option>';
+        wilayasData.forEach(item => {
+            const option = document.createElement("option");
+            option.value = item.id;
+            option.textContent = getCode(item) + " - " + item.name.local;
+            wilaya.appendChild(option);
+        });
+        wilaya.disabled = false;
+        document.getElementById("status").textContent = "اختر ولايتك لعرض البلديات وأسعار التوصيل.";
+    } catch (error) {
+        document.getElementById("status").textContent = "تعذر تحميل الولايات.";
+    }
+}
+
+function updateCommunes() {
+    const selected = wilayasData.find(item => item.id === wilaya.value);
+    commune.innerHTML = '<option value="">اختر البلدية</option>';
+    commune.disabled = true;
+
+    if (!selected) {
+        updateTotal();
+        return;
+    }
+
+    const list = [];
+    (selected.daira || []).forEach(daira => {
+        (daira.commune || []).forEach(item => list.push(item));
+    });
+
+    const unique = [...new Map(list.map(item => [item.id, item])).values()];
+    unique.sort((a, b) => a.name.local.localeCompare(b.name.local, "ar"));
+
+    unique.forEach(item => {
+        const option = document.createElement("option");
+        option.value = item.name.local;
+        option.textContent = item.name.local;
+        commune.appendChild(option);
+    });
+
+    commune.disabled = unique.length === 0;
+    updateTotal();
+}
+
+quantity.addEventListener("input", updateTotal);
+wilaya.addEventListener("change", updateCommunes);
+deskRadio.addEventListener("change", updateTotal);
+homeRadio.addEventListener("change", updateTotal);
+
+document.getElementById("orderForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    if (!wilaya.value || !commune.value) {
+        alert("اختر الولاية والبلدية.");
+        return;
+    }
+    const phone = document.getElementById("phone").value.trim();
+    if (!/^(05|06|07)[0-9]{8}$/.test(phone)) {
+        alert("أدخل رقم هاتف جزائري صحيحًا.");
+        return;
+    }
+
+    const randomNum = Math.floor(1000 + Math.random() * 9000);
+    const trackingCode = "VYRO-" + randomNum;
+    const selectedModelName = model.value === '1900' ? 'موديل 1 (1900 دج)' : 'موديل 2 (2000 دج)';
+    const locationName = wilayasData.find(item => item.id === wilaya.value).name.local + ' - ' + commune.value;
+    const deliveryTypeName = homeRadio.checked ? 'إلى المنزل' : 'إلى المكتب';
+    const shippingCost = getShippingPrice();
+    const totalPrice = (Number(quantity.value) * Number(model.value)) + (shippingCost || 0);
+
+    const orderData = {
+        code: trackingCode,
+        name: document.getElementById("fullName").value.trim(),
+        phone: phone,
+        model: selectedModelName,
+        quantity: quantity.value,
+        location: locationName,
+        status: "قيد المراجعة ⏳",
+        date: new Date().toLocaleDateString('ar-DZ')
+    };
+
+    let allOrders = JSON.parse(localStorage.getItem('vyro_orders') || '{}');
+    allOrders[trackingCode.toUpperCase()] = orderData;
+    localStorage.setItem('vyro_orders', JSON.stringify(allOrders));
+
+    const telegramMessage = `🕶️ *طلب جديد من متجر VYRO*\n\n` +
+                            `🆔 *رقم الطلب:* \`${trackingCode}\`\n` +
+                            `📦 *المنتج:* ${selectedModelName}\n` +
+                            `🔢 *الكمية:* ${quantity.value}\n` +
+                            `👤 *الاسم:* ${orderData.name}\n` +
+                            `📞 *الهاتف:* ${phone}\n` +
+                            `📍 *الولاية والبلدية:* ${locationName}\n` +
+                            `🏠 *العنوان:* ${document.getElementById("address").value.trim()}\n` +
+                            `🚚 *التوصيل:* ${deliveryTypeName} (${shippingCost} دج)\n` +
+                            `💰 *المجموع الإجمالي:* ${totalPrice} دج`;
+
+    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            chat_id: CHAT_ID,
+            text: telegramMessage,
+            parse_mode: 'Markdown'
+        })
+    }).catch(err => console.log('Telegram error:', err));
+
+    document.getElementById("generatedCode").textContent = trackingCode;
+    document.getElementById("copyHint").textContent = "اضغط هنا لنسخ الرمز";
+    document.getElementById("copyHint").style.color = "#0095f6";
+    document.getElementById("successModal").style.display = "flex";
+});
+
+function copyTrackingCode() {
+    const codeText = document.getElementById("generatedCode").textContent;
+    const tempInput = document.createElement("input");
+    tempInput.value = codeText;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    tempInput.setSelectionRange(0, 99999);
+
+    try {
+        document.execCommand("copy");
+        const hint = document.getElementById("copyHint");
+        hint.textContent = "تم نسخ الرمز بنجاح! 📋✅";
+        hint.style.color = "#2ed573";
+    } catch (err) {
+        alert("رمز التعقب الخاص بك هو: " + codeText);
+    }
+
+    document.body.removeChild(tempInput);
+}
+
+function closeModal() {
+    document.getElementById("successModal").style.display = "none";
+    document.getElementById("orderForm").reset();
+    selectModel('1900', 'card1');
+    updateTotal();
+}
+
+function trackOrder() {
+    const rawInput = document.getElementById("trackInput").value.trim();
+    const resultBox = document.getElementById("trackResultBox");
+    const adminPanel = document.getElementById("adminPanel");
+    
+    if (!rawInput) {
+        alert("الرجاء إدخال رمز التعقب.");
+        return;
+    }
+
+    if (rawInput.toUpperCase() === ADMIN_PASSWORD) {
+        adminPanel.style.display = "block";
+        resultBox.style.display = "none";
+        alert("أهلاً بك يا جهاد! تم فتح لوحة التحكم السرية.");
+        document.getElementById("trackInput").value = "";
+        return;
+    }
+
+    const codeKey = rawInput.toUpperCase();
+    let allOrders = JSON.parse(localStorage.getItem('vyro_orders') || '{}');
+    const order = allOrders[codeKey];
+
+    adminPanel.style.display = "none";
+    resultBox.style.display = "block";
+
+    if (order) {
+        resultBox.innerHTML = `
+            <strong>📦 معلومات الطلبية:</strong><br>
+            - صاحب الطلب: ${order.name}<br>
+            - المنتج: ${order.model} (الكمية: ${order.quantity})<br>
+            - الوجهة: ${order.location}<br>
+            - تاريخ الطلب: ${order.date}<br>
+            - <strong>حالة الطلب: <span style="color:#0095f6;">${order.status}</span></strong>
+        `;
+    } else {
+        resultBox.innerHTML = `<span style="color:#ff4d4d;">عذراً، لم يتم العثور على أي طلب بهذا الرمز. تأكد من صحة الرمز المدخل.</span>`;
+    }
+}
+
+function updateOrderStatus() {
+    const rawCode = document.getElementById("adminOrderCode").value.trim();
+    const newStatus = document.getElementById("adminStatus").value;
+
+    if (!rawCode) {
+        alert("يرجى إدخال رمز الطلب.");
+        return;
+    }
+
+    const codeKey = rawCode.toUpperCase();
+    let allOrders = JSON.parse(localStorage.getItem('vyro_orders') || '{}');
+
+    if (allOrders[codeKey]) {
+        allOrders[codeKey].status = newStatus;
+        localStorage.setItem('vyro_orders', JSON.stringify(allOrders));
+        alert("تم تحديث حالة الطلب بنجاح إلى: " + newStatus);
+        document.getElementById("adminOrderCode").value = "";
+    } else {
+        alert("لم يتم العثور على هذا الطلب.");
+    }
+}
+
+loadWilayas();
+updateTotal();
+</script>
+
+</body>
+</html>
+
